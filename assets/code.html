@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>应用授权 优酷网</title>
+<link href="/assets/oauth/css/oauth.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+<div class="oauth">
+	<div class="header">
+		<div class="logo"><a href="#" target="_blank"></a></div>
+	</div>
+	<div class="bar">
+		<p>用优酷网帐号连接<span class="website">uvic_api</span>, 与朋友共享精彩！
+	</div>
+	<div class="section">
+		<div class="connect">
+			<table cellpadding="0" cellspacing="0" border="0">
+				<tr>
+					<td class="left"><img src="/assets/oauth/images/logo.png" /></td>
+					<td class="center"><div class="arrow"></div></td>
+					<td class="right">
+						uvic_api					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="main">
+			<div class="rules">
+				<h3>将允许<span class="website">uvic_api</span>进行如下操作:</h3>
+				<ul>
+					<li><span class="dot">•</span>获取你的头像和昵称；</li>
+					<li><span class="dot">•</span>获取分享的视频信息。</li>
+				</ul>
+			</div>
+			<div class="panel">
+				<div class="msgbox" id="msgbox" style="display:none;" >错误的帐号和密码</div>
+				<form action="authorize_submit" method="post" name="authForm" id="authForm">
+				<input type="hidden" name="client_id" value="08bd74bd69c8365f" />
+				<input type="hidden" name="response_type" value="code" />
+				<input type="hidden" name="state" value="xyz" />
+				<input type="hidden" name="redirect_uri" value="http://www.uvicsoft.com" />
+				<input type="hidden" name="auth_type" id="auth_type" value="1" />
+								<!-- loginform -->
+				<div id="login" class="login">
+						<fieldset>
+							<p>
+								<label for="account">帐号:</label><input type="text" class="form_input " title="昵称/邮箱" value="昵称/邮箱" name="account" id="account" />
+							</p>
+							<p class="nom-b">
+								<label for="password">密码:</label><input type="password" class="form_input" value="" name="password" id="password" />
+							</p>
+						</fieldset>
+				</div>
+				</form>
+				<div class="oauth-area">
+					<div class="form_btn form_btn_m form_btnmaj_m"><span class="form_btn_text" style="width:90px;" onclick="authorize();">授&nbsp;&nbsp;&nbsp;&nbsp;权</span></div>
+					<a onclick="authorizeDenied();">不，谢谢</a>
+					<div class="userlogin">没有优酷帐号？<a href="http://www.youku.com/user_signup/" target="_blank">马上注册</a></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+	<!--div class="tips">
+		<p>您可以随时再<a href="#" target="_blank">个人设置</a>中取消授权。</p>
+	</div-->
+</div>
+<script type="text/javascript">
+var accountInput = document.getElementById('account');
+accountInput.onfocus = function() {
+	if (this.value==this.title) this.value='';
+}
+accountInput.onblur = function() {
+	if (this.value=='') this.value=this.title;
+}
+function authorize() {
+	var f = document.getElementById('authForm');
+	var e = document.getElementById('msgbox');
+	if (f.auth_type.value==1) {
+		if (f.account.value=='' || f.account.value==f.account.title) {
+			e.style.display = 'block';
+			e.innerHTML = '请输入帐户';
+			f.account.focus();
+			return;
+		}
+		if (f.password.value=='') {
+			e.style.display = 'block';
+			e.innerHTML = '请输入帐户';
+			e.innerHTML = '请输入密码';
+			f.password.focus();
+			return;
+		}
+	}
+	f.submit();
+}
+function authorizeDenied() {
+	var f = document.getElementById('authForm');
+	f.action = 'authorize_denied';
+	f.submit();
+}
+function changeAuthType() {
+	document.getElementById('userInfo').style.display = 'none';
+	document.getElementById('login').style.display = 'block';
+	document.getElementById('auth_type').value = 1;
+}
+function closeWindow() {
+	var browserName = navigator.appName;
+	if (browserName == "Netscape") {
+		window.open('','_parent','');  
+		window.close();   
+	}
+	else if (browserName == "Microsoft Internet Explorer") {
+		window.opener = self;
+		window.open('','_parent','');  
+		window.close();
+	}
+}
+</script>
+</body>
+</html>
